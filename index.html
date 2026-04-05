@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Vertix Browser</title>
+<title>gay</title>
 <style>
 body{margin:0;background:#0b1c18;color:#fff;font-family:Arial}
 #top{display:flex;gap:6px;padding:10px;background:#071210}
@@ -14,71 +14,3 @@ button{padding:8px}
 </head>
 <body>
 
-<div id="top">
-<button onclick="back()">⬅</button>
-<button onclick="forward()">➡</button>
-<input id="url" placeholder="Enter URL">
-<button onclick="go()">GO</button>
-<button onclick="newTab()">+</button>
-</div>
-
-<div id="tabs"></div>
-
-<script>
-let tabs = []
-let current = 0
-
-function newTab(){
-  tabs.push({history:[], index:-1})
-  current = tabs.length-1
-  renderTabs()
-}
-
-function renderTabs(){
-  const t = document.getElementById("tabs")
-  t.innerHTML=""
-  tabs.forEach((tab,i)=>{
-    const el=document.createElement("div")
-    el.className="tab"+(i===current?" active":"")
-    el.innerText="Tab "+(i+1)
-    el.onclick=()=>{current=i;renderTabs()}
-    t.appendChild(el)
-  })
-}
-
-function go(){
-  let url=document.getElementById("url").value.trim()
-  if(!url.startsWith("http")) url="https://"+url
-
-  const encoded=encodeURIComponent(url)
-  const proxy="/scramjet/"+encoded
-
-  let tab=tabs[current]
-  tab.history=tab.history.slice(0,tab.index+1)
-  tab.history.push(proxy)
-  tab.index++
-
-  window.location.href=proxy
-}
-
-function back(){
-  let tab=tabs[current]
-  if(tab.index>0){
-    tab.index--
-    window.location.href=tab.history[tab.index]
-  }
-}
-
-function forward(){
-  let tab=tabs[current]
-  if(tab.index<tab.history.length-1){
-    tab.index++
-    window.location.href=tab.history[tab.index]
-  }
-}
-
-newTab()
-</script>
-
-</body>
-</html>
